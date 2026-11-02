@@ -1,59 +1,192 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SIMPEG – Sistem Informasi Manajemen Pegawai
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**SIMPEG (Sistem Informasi Manajemen Pegawai)** merupakan aplikasi berbasis web yang dikembangkan untuk membantu pengelolaan data pegawai secara terstruktur. Sistem ini menyediakan fitur pengelolaan data pegawai, dashboard statistik, serta manajemen akun pengguna dengan pembagian hak akses berdasarkan role.
 
-## About Laravel
+## Fitur Utama
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 1. Autentikasi dan Hak Akses
+- Login dan logout pengguna.
+- Pembagian hak akses Superadmin dan Admin.
+- Pembatasan akses halaman berdasarkan role.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 2. Manajemen Pegawai
+- Menambahkan data pegawai.
+- Melihat daftar dan detail pegawai.
+- Mengubah data pegawai.
+- Menghapus data pegawai dengan konfirmasi.
+- Pencarian data pegawai.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 3. Dashboard
+- Informasi total pegawai.
+- Statistik jumlah pegawai laki-laki dan perempuan.
+- Grafik perbandingan jenis kelamin.
+- Grafik berdasarkan pendidikan terakhir.
+- Grafik distribusi usia pegawai.
+- Grafik berdasarkan jabatan.
+- Informasi total Admin khusus Superadmin.
 
-## Learning Laravel
+### 4. Manajemen Admin
+- Menambahkan akun Admin.
+- Melihat daftar Admin.
+- Mengubah data Admin.
+- Menghapus akun Admin.
+- Reset password Admin oleh Superadmin.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 5. Manajemen Profil
+- Melihat informasi profil pengguna.
+- Mengubah nama dan email.
+- Mengubah password.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 6. Penanganan Error
+- Halaman 403 – Akses Ditolak.
+- Halaman 404 – Halaman Tidak Ditemukan.
 
-## Laravel Sponsors
+## Teknologi yang Digunakan
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+| Teknologi | Kegunaan |
+|---|---|
+| PHP 8.2+ | Bahasa pemrograman backend |
+| Laravel 12 | Framework backend |
+| MySQL | Database |
+| Bootstrap 5 | Framework antarmuka |
+| JavaScript | Interaktivitas frontend |
+| Chart.js | Visualisasi grafik statistik |
+| SweetAlert2 | Notifikasi dan konfirmasi |
+| Bootstrap Icons | Ikon antarmuka |
 
-### Premium Partners
+## Persyaratan Sistem
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Pastikan perangkat telah memiliki:
+- PHP 8.2 atau lebih baru.
+- Composer.
+- MySQL.
+- Node.js dan NPM.
+- Git.
 
-## Contributing
+## Instalasi dan Konfigurasi
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 1. Clone Repository
 
-## Code of Conduct
+```bash
+git clone https://github.com/ArilPopon/SistemInformasiManajemenDataPegawai.git
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Masuk ke direktori project:
 
-## Security Vulnerabilities
+```bash
+cd SistemInformasiManajemenDataPegawai
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 2. Install Dependencies
 
-## License
+Install dependency PHP:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+composer install
+```
+
+Install dependency frontend:
+
+```bash
+npm install
+```
+
+### 3. Konfigurasi Environment
+
+Salin file `.env.example` menjadi `.env`:
+
+```bash
+cp .env.example .env
+```
+
+Untuk Windows CMD, bisa menggunakan:
+
+```cmd
+copy .env.example .env
+```
+
+Generate application key:
+
+```bash
+php artisan key:generate
+```
+
+### 4. Konfigurasi Database
+
+Buat database MySQL dengan nama:
+
+```text
+db_manajemen_pegawai
+```
+
+Kemudian sesuaikan konfigurasi database pada file `.env`:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=db_manajemen_pegawai
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Sesuaikan username dan password MySQL dengan konfigurasi perangkat masing-masing.
+
+### 5. Migrasi dan Seeder
+
+Jalankan migrasi database beserta seeder:
+
+```bash
+php artisan migrate --seed
+```
+
+Seeder akan membuat akun awal Superadmin sesuai konfigurasi pada `SuperadminSeeder`.
+
+### 6. Jalankan Aplikasi
+
+Jalankan server Laravel:
+
+```bash
+php artisan serve
+```
+
+Jalankan frontend development server:
+
+```bash
+npm run dev
+```
+
+Buka aplikasi melalui browser:
+
+```text
+http://127.0.0.1:8000
+```
+
+## Struktur Hak Akses
+
+| Role | Hak Akses |
+|---|---|
+| Superadmin | Dashboard, manajemen pegawai, manajemen admin, dan profil |
+| Admin | Dashboard, manajemen pegawai, dan profil |
+
+Akun Admin dibuat dan dikelola oleh Superadmin. Sistem tidak menyediakan registrasi akun secara publik.
+
+## Keamanan
+
+- Password disimpan menggunakan hashing.
+- Validasi dilakukan pada input pengguna.
+- Middleware digunakan untuk membatasi akses berdasarkan role.
+- Penghapusan data memerlukan konfirmasi.
+- File `.env` tidak disertakan dalam repository.
+
+## Pengembang
+
+**Aril Ponco Nugroho**
+
+Project: Sistem Informasi Manajemen Pegawai (SIMPEG)
+
+Framework: Laravel 12
+
+---
+
+*SIMPEG – Sistem Informasi Manajemen Pegawai*
