@@ -142,7 +142,27 @@ php artisan migrate --seed
 
 Seeder akan membuat akun awal Superadmin sesuai konfigurasi pada `SuperadminSeeder`.
 
-### 6. Jalankan Aplikasi
+### 6. Akun Superadmin Default
+
+Setelah menjalankan proses migrasi dan seeder, sistem akan membuat akun Superadmin secara otomatis melalui `SuperadminSeeder`.
+
+Berikut kredensial akun Superadmin:
+
+| Keterangan | Informasi |
+|---|---|
+| Nama | Super Administrator |
+| Email | `superadmin@gmail.com` |
+| Password | `SuperAdmin123!` |
+| Role | Superadmin |
+
+**Catatan:**
+- Akun Superadmin dibuat secara otomatis ketika menjalankan seeder.
+- Gunakan akun tersebut untuk login pertama kali.
+- Superadmin dapat membuat dan mengelola akun Admin melalui menu Manajemen Admin.
+- Disarankan mengganti password default setelah login pertama kali.
+- Jangan gunakan password default untuk deployment produksi.
+
+### 7. Menjalankan Aplikasi
 
 Jalankan server Laravel:
 
