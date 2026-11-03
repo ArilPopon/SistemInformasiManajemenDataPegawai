@@ -319,7 +319,7 @@
 
             </a>
 
-            <form action="{{ route('logout') }}" method="POST">
+            <form action="{{ route('logout') }}" method="POST" id="logoutForm">
                 @csrf
 
                 <button type="submit" class="logout-button">
@@ -386,6 +386,30 @@
                 closeSidebar();
             }
         });
+
+        // Konfirmasi sebelum logout
+        const logoutForm = document.getElementById('logoutForm');
+
+        if (logoutForm) {
+            logoutForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                Swal.fire({
+                    title: 'Apakah Anda yakin ingin logout?',
+                    text: 'Anda akan keluar dari sistem SIMPEG.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, Logout',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        logoutForm.submit();
+                    }
+                });
+            });
+        }
     </script>
 
     @stack('scripts')
