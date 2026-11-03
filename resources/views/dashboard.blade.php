@@ -206,6 +206,7 @@
             }
         };
 
+
         // Data jenis kelamin
         const genderLabels = ['Laki-laki', 'Perempuan'];
 
@@ -214,18 +215,28 @@
             {{ $totalFemale }}
         ];
 
+        // Grafik batang perbandingan jenis kelamin
         new Chart(document.getElementById('genderChart'), {
-            type: 'doughnut',
+            type: 'bar',
             data: {
                 labels: genderLabels,
                 datasets: [{
+                    label: 'Jumlah Pegawai',
                     data: genderData,
                     backgroundColor: ['#2563eb', '#ec4899'],
-                    borderWidth: 0
+                    borderRadius: 6
                 }]
             },
             options: {
-                ...chartOptions
+                ...chartOptions,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
             }
         });
 

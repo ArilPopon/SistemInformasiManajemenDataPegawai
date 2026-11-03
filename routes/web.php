@@ -7,6 +7,15 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ProfileController;
 
+// Route halaman utama
+Route::get('/', function () {
+    if (auth()->check()) {
+        return redirect()->route('dashboard');
+    }
+
+    return redirect()->route('login');
+});
+
 // Route untuk pengguna yang belum login
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])
