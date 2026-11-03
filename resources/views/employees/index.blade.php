@@ -3,6 +3,8 @@
 @section('title', 'Manajemen Pegawai')
 
 @push('styles')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css">
+
     <style>
         .main-card {
             border: none;
@@ -16,6 +18,101 @@
 
         .btn {
             border-radius: 8px;
+        }
+
+        /* Jarak dan posisi bagian atas DataTables */
+        .dataTables_wrapper .dataTables_length,
+        .dataTables_wrapper .dataTables_filter {
+            margin-bottom: 18px;
+        }
+
+        /* Dropdown jumlah data */
+        .dataTables_wrapper .dataTables_length {
+            text-align: left;
+        }
+
+        .dataTables_wrapper .dataTables_length label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0;
+            white-space: nowrap;
+        }
+
+        .dataTables_wrapper .dataTables_length select {
+            width: 75px;
+            min-width: 75px;
+            height: 38px;
+            padding: 6px 28px 6px 10px;
+            margin: 0 !important;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            background-position: right 8px center;
+            cursor: pointer;
+        }
+
+        /* Search box di sebelah kanan */
+        .dataTables_wrapper .dataTables_filter {
+            text-align: right;
+        }
+
+        .dataTables_wrapper .dataTables_filter label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-bottom: 0;
+            white-space: nowrap;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            width: 220px;
+            height: 38px;
+            padding: 6px 12px;
+            margin: 0 !important;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            outline: none;
+            box-shadow: none;
+        }
+
+        .dataTables_wrapper .dataTables_filter input:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, .12);
+        }
+
+        /* Ikon sorting tabel */
+        #employeeTable thead th {
+            padding-right: 30px !important;
+            vertical-align: middle;
+        }
+
+        /* Pagination */
+        .dataTables_wrapper .dataTables_paginate {
+            margin-top: 8px;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            border-radius: 6px !important;
+        }
+
+        /* Tampilan mobile */
+        @media (max-width: 576px) {
+
+            .dataTables_wrapper .dataTables_length,
+            .dataTables_wrapper .dataTables_filter {
+                text-align: left;
+                margin-bottom: 12px;
+            }
+
+            .dataTables_wrapper .dataTables_filter label {
+                justify-content: flex-start;
+                flex-wrap: wrap;
+            }
+
+            .dataTables_wrapper .dataTables_filter input {
+                width: 100%;
+            }
         }
     </style>
 @endpush
@@ -61,30 +158,8 @@
         <div class="card main-card">
             <div class="card-body p-4">
 
-                <!-- Search -->
-                <form action="{{ route('employees.index') }}" method="GET" class="row g-2 mb-4">
-                    <div class="col-md-5">
-                        <input type="text" name="search" class="form-control"
-                            placeholder="Cari NIP, nama, atau jabatan..." value="{{ request('search') }}">
-                    </div>
-
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-search me-1"></i>
-                            Cari
-                        </button>
-                    </div>
-
-                    <div class="col-auto">
-                        <a href="{{ route('employees.index') }}" class="btn btn-light border">
-                            Reset
-                        </a>
-                    </div>
-                </form>
-
-                <!-- Employee Table -->
                 <div class="table-responsive">
-                    <table class="table table-hover align-middle">
+                    <table id="employeeTable" class="table table-hover align-middle w-100">
                         <thead class="table-light">
                             <tr>
                                 <th>No.</th>
@@ -99,9 +174,9 @@
                         </thead>
 
                         <tbody>
-                            @forelse($employees as $employee)
+                            @foreach ($employees as $employee)
                                 <tr>
-                                    <td>{{ $employees->firstItem() + $loop->index }}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $employee->nip }}</td>
                                     <td class="fw-semibold">{{ $employee->name }}</td>
                                     <td>
@@ -140,21 +215,9 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="8" class="text-center py-5 text-secondary">
-                                        <i class="bi bi-inbox fs-2 d-block mb-2"></i>
-                                        Belum ada data pegawai.
-                                    </td>
-                                </tr>
-                            @endforelse
+                            @endforeach
                         </tbody>
                     </table>
-                </div>
-
-                <!-- Pagination -->
-                <div class="mt-3">
-                    {{ $employees->links('pagination::bootstrap-5') }}
                 </div>
 
             </div>
@@ -164,9 +227,62 @@
 @endsection
 
 @push('scripts')
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- DataTables -->
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+
     <script>
-        document.querySelectorAll('.delete-form').forEach(form => {
-            form.addEventListener('submit', function(event) {
+        $(document).ready(function() {
+
+            // Inisialisasi DataTables
+            $('#employeeTable').DataTable({
+                pageLength: 5,
+                lengthMenu: [5, 10, 25, 50, 100],
+
+                order: [
+                    [1, 'asc']
+                ],
+
+                columnDefs: [{
+                    targets: [0, 7],
+                    orderable: false,
+                    searchable: false
+                }],
+
+                language: {
+                    search: 'Cari:',
+                    searchPlaceholder: 'Cari NIP, nama, jabatan...',
+                    lengthMenu: 'Tampilkan _MENU_ data',
+                    info: 'Menampilkan _START_ sampai _END_ dari _TOTAL_ data pegawai',
+                    infoEmpty: 'Tidak ada data pegawai',
+                    infoFiltered: '(disaring dari _MAX_ total data)',
+                    zeroRecords: 'Data pegawai tidak ditemukan',
+                    emptyTable: 'Belum ada data pegawai',
+                    paginate: {
+                        first: 'Pertama',
+                        last: 'Terakhir',
+                        next: 'Berikutnya',
+                        previous: 'Sebelumnya'
+                    }
+                },
+
+                drawCallback: function() {
+                    const api = this.api();
+                    const start = api.page.info().start;
+
+                    api.column(0, {
+                        page: 'current'
+                    }).nodes().each(function(cell, index) {
+                        cell.innerHTML = start + index + 1;
+                    });
+                }
+            });
+
+            // Konfirmasi hapus menggunakan SweetAlert2
+            $(document).on('submit', '.delete-form', function(event) {
                 event.preventDefault();
 
                 const currentForm = this;
@@ -180,12 +296,13 @@
                     cancelButtonColor: '#6c757d',
                     confirmButtonText: 'Ya, Hapus',
                     cancelButtonText: 'Batal'
-                }).then(result => {
+                }).then((result) => {
                     if (result.isConfirmed) {
                         currentForm.submit();
                     }
                 });
             });
+
         });
     </script>
 @endpush

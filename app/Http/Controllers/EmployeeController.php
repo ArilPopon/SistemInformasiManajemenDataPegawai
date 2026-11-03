@@ -9,24 +9,15 @@ use Illuminate\Validation\Rule;
 class EmployeeController extends Controller
 {
     // Menampilkan daftar pegawai
-    public function index(Request $request)
-    {
-        $employees = Employee::query()
-            ->when($request->filled('search'), function ($query) use ($request) {
-                $search = $request->input('search');
 
-                $query->where(function ($q) use ($search) {
-                    $q->where('nip', 'like', "%{$search}%")
-                        ->orWhere('name', 'like', "%{$search}%")
-                        ->orWhere('position', 'like', "%{$search}%");
-                });
-            })
-            ->latest()
-            ->paginate(10)
-            ->withQueryString();
+    // Menampilkan daftar pegawai
+    public function index()
+    {
+        $employees = Employee::latest()->get();
 
         return view('employees.index', compact('employees'));
     }
+
 
     // Form tambah pegawai
     public function create()
@@ -35,9 +26,15 @@ class EmployeeController extends Controller
     }
 
     // Menyimpan pegawai baru
+    // Menyimpan pegawai baru
     public function store(Request $request)
     {
-        $validated = $request->validate($this->rules());
+        $validated = $request->validate(
+            $this->rules(),
+            [
+                'nip.unique' => 'NIP sudah terdaftar. Silakan gunakan NIP lain.',
+            ]
+        );
 
         Employee::create($validated);
 
@@ -59,10 +56,14 @@ class EmployeeController extends Controller
     }
 
     // Memperbarui data pegawai
+    // Memperbarui data pegawai
     public function update(Request $request, Employee $employee)
     {
         $validated = $request->validate(
-            $this->rules($employee)
+            $this->rules($employee),
+            [
+                'nip.unique' => 'NIP sudah digunakan oleh pegawai lain.',
+            ]
         );
 
         $employee->update($validated);

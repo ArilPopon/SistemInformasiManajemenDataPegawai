@@ -48,13 +48,16 @@
 
         <!-- Validation Errors -->
         @if ($errors->any())
-            <div class="alert alert-danger">
+            <div class="alert alert-danger alert-dismissible fade show">
                 <strong>Terdapat kesalahan input:</strong>
+
                 <ul class="mb-0 mt-2">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
 
@@ -310,25 +313,51 @@
 
 @push('scripts')
     <script>
-        const form = document.getElementById('editEmployeeForm');
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('editEmployeeForm');
+            const nipInput = document.querySelector('input[name="nip"]');
 
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
+            // Konfirmasi sebelum memperbarui data pegawai
+            if (form) {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
 
-            Swal.fire({
-                title: 'Perbarui Data Pegawai?',
-                text: 'Pastikan perubahan data pegawai sudah benar.',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#2563eb',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Ya, Perbarui',
-                cancelButtonText: 'Batal'
-            }).then(result => {
-                if (result.isConfirmed) {
-                    form.submit();
-                }
-            });
+                    Swal.fire({
+                        title: 'Perbarui Data Pegawai?',
+                        text: 'Pastikan perubahan data pegawai sudah benar.',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#2563eb',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Ya, Perbarui',
+                        cancelButtonText: 'Batal'
+                    }).then(result => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            }
+
+            // Menghapus pesan error ketika NIP diperbaiki
+            if (nipInput) {
+                nipInput.addEventListener('input', function() {
+                    this.classList.remove('is-invalid');
+
+                    const errorMessage = this.parentElement.querySelector('.invalid-feedback');
+
+                    if (errorMessage) {
+                        errorMessage.remove();
+                    }
+
+                    // Menghapus notifikasi error terkait NIP
+                    const errorAlert = document.querySelector('.alert-danger');
+
+                    if (errorAlert && errorAlert.textContent.includes('NIP')) {
+                        errorAlert.remove();
+                    }
+                });
+            }
         });
     </script>
 @endpush

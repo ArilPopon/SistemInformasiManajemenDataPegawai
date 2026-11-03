@@ -10,14 +10,17 @@ use Illuminate\Validation\Rule;
 class AdminController extends Controller
 {
     // Menampilkan daftar akun Admin
+
+    // Menampilkan daftar akun Admin
     public function index()
     {
         $admins = User::where('role', 'admin')
             ->latest()
-            ->paginate(10);
+            ->get();
 
         return view('admins.index', compact('admins'));
     }
+
 
     // Menampilkan form tambah Admin
     public function create()
@@ -32,6 +35,8 @@ class AdminController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ], [
+            'email.unique' => 'Email sudah digunakan. Silakan gunakan email lain.',
         ]);
 
         User::create([
@@ -67,6 +72,8 @@ class AdminController extends Controller
                 'max:255',
                 Rule::unique('users', 'email')->ignore($admin->id),
             ],
+        ], [
+            'email.unique' => 'Email sudah digunakan oleh Admin lain.',
         ]);
 
         $admin->update($validated);
